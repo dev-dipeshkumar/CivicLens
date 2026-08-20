@@ -1,5 +1,14 @@
 # Fine-tuning the streetlight detector
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/dev-dipeshkumar/CivicLens/blob/main/training/streetlight/colab_train.ipynb)
+
+> **👆 Fastest path:** click the badge above. Paste your Roboflow API key +
+> workspace/project names into cell 2, then **Runtime → Run all**. Total time:
+> ~5–8 min on a free Colab T4 GPU. It trains, evaluates, deploys, and prints
+> the exact line to paste into your backend `.env`.
+
+---
+
 This folder contains the scripts to **fine-tune your own YOLOv8 streetlight
 detector on Roboflow** and plug it into the CivicLens backend.
 
