@@ -24,7 +24,11 @@ class Settings(BaseSettings):
     # --- AI ---
     AI_MODE: str = Field(default="mock")  # roboflow | local | mock
     ROBOFLOW_API_KEY: str = Field(default="")
+    # Legacy single-model config (still supported)
     ROBOFLOW_MODEL_URL: str = Field(default="")
+    # Preferred: comma-separated "<category>:<slug/version>" entries.
+    # Example: "pothole:pothole-detection-yolov8/1,garbage:garbage_detection-wvzwv/9"
+    ROBOFLOW_MODELS: str = Field(default="")
 
     # --- Demo geography ---
     DEMO_CENTER_LAT: float = Field(default=26.9124)   # Jaipur by default
