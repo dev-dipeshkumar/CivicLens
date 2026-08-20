@@ -62,7 +62,20 @@ CLASS_MAP: dict[str, str] = {
     "working": "streetlight",
     "damaged_light": "streetlight", "damaged-light": "streetlight",
 
-    "road_damage": "road_damage", "crack": "road_damage", "cracks": "road_damage",
+    "road_damage": "road_damage",
+    "crack": "road_damage", "cracks": "road_damage",
+    "alligator-crack": "road_damage", "alligator_crack": "road_damage",
+    "alligator crack": "road_damage", "alligatorcracks": "road_damage",
+    "longitudinal_crack": "road_damage", "longitudinal-crack": "road_damage",
+    "longitudinal crack": "road_damage",
+    "transverse_crack": "road_damage", "transverse-crack": "road_damage",
+    "transverse crack": "road_damage",
+    "lateral_crack": "road_damage", "lateral-crack": "road_damage",
+    "lateral crack": "road_damage",
+    "crack_alligator": "road_damage", "crack_long": "road_damage",
+    "crack_trans": "road_damage",
+    "rut": "road_damage", "ruts": "road_damage",
+    "d00": "road_damage", "d10": "road_damage", "d20": "road_damage", "d40": "road_damage",
 }
 
 
@@ -203,9 +216,15 @@ def _call_roboflow_model(
     img_w = float(data.get("image", {}).get("width", 1.0))
     img_h = float(data.get("image", {}).get("height", 1.0))
     area_pct = (w * h) / max(img_w * img_h, 1.0) * 100.0
-    # Prefer the explicit category hint from ROBOFLOW_MODELS; fall back to
-    # normalization of the raw class name (used by ROBOFLOW_MODEL_URL legacy path).
-    category = category_hint or _normalize_class(raw_class)
+    # Prefer normalized raw class when the model actually recognizes it (this
+    # matters for multi-class models like road_defects which return both
+    # "pothole" and "cracks"). Fall back to the config hint only if we can't
+    # normalize the raw class into one of our known categories.
+    normalized = _normalize_class(raw_class)
+    if normalized != "uncertain":
+        category = normalized
+    else:
+        category = category_hint or "uncertain"
     logger.info("ROBOFLOW %s -> %s (%s) conf=%.2f area=%.1f%%",
                 slug, category, raw_class, confidence, area_pct)
     return Detection(

@@ -43,12 +43,19 @@ civiclens/
     │       ├── api.ts            # typed API client
     │       └── tokens.ts         # design tokens
     └── package.json
-└── training/          # OPTIONAL — fine-tune the streetlight detector
-    ├── fine_tune_streetlight.py  # Roboflow dataset download + YOLOv8 train
-    ├── deploy_weights.py         # upload best.pt back to Roboflow hosted inference
-    ├── requirements.txt
-    ├── .env.example
-    └── README.md                 # 3 paths: Roboflow Train / local / Colab
+└── training/          # OPTIONAL — fine-tune your own detectors on Roboflow
+    ├── _common.py                # shared download → train → deploy pipeline
+    ├── requirements.txt          # heavy deps isolated from backend
+    ├── streetlight/              # fine-tune streetlight (no strong public model)
+    │   ├── fine_tune.py
+    │   ├── deploy.py
+    │   ├── .env.example
+    │   └── README.md
+    └── road_damage/              # fine-tune road-damage (optional, public model exists)
+        ├── fine_tune.py
+        ├── deploy.py
+        ├── .env.example
+        └── README.md
 ```
 
 ---
@@ -120,11 +127,14 @@ several in parallel and keeps the best hit:
 ROBOFLOW_MODELS=pothole:pothole-detection-yolov8/1,garbage:garbage_detection-wvzwv/9,streetlight:civiclens-streetlight/1
 ```
 
-- `pothole` and `garbage` — ready-made public models, just set the key.
+- `pothole`, `garbage`, `road_damage` — ready-made public models, just set the API key.
 - `streetlight` — no strong public model exists, so we ship a **fine-tuning
-  pipeline** in [`training/`](./training/README.md). Fork one of two labeled
-  datasets, run one script (or a Colab cell), get a `slug/version`, paste it
-  into `ROBOFLOW_MODELS`. See `training/README.md` for the 5-minute guide.
+  pipeline** in [`training/streetlight/`](./training/streetlight/README.md).
+  Fork a labeled dataset (Working/Nonworking/Flicker), run one script (or
+  a Colab cell), get a `slug/version`, paste it into `ROBOFLOW_MODELS`.
+- Want your own **road-damage** model tuned to your city's roads?
+  [`training/road_damage/`](./training/road_damage/README.md) has the same
+  pipeline. Otherwise the default public model works out of the box.
 
 ---
 
