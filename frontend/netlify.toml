@@ -1,0 +1,16 @@
+# Netlify build configuration for the CivicLens AI frontend.
+#
+# NOTE: Netlify hosts the static SPA only. Deploy the FastAPI backend
+# separately (Render / Railway / Fly.io) and point VITE_API_BASE_URL at it
+# in the Netlify UI → Site settings → Environment variables.
+
+[build]
+  base    = "frontend"
+  command = "npm run build"
+  publish = "frontend/dist"
+
+# SPA fallback — every route serves index.html so react-router works.
+[[redirects]]
+  from   = "/*"
+  to    = "/index.html"
+  status = 200

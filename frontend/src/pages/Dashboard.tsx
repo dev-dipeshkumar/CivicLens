@@ -412,7 +412,7 @@ function ReportPanel({
 
         <div className="mt-3 rounded-xl overflow-hidden border border-white/10 bg-black">
           <img
-            src={`/${report.image_path}`}
+            src={`${(import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "")}/${report.image_path}`}
             alt="Report photo"
             className="w-full h-56 object-cover"
             onError={(e) => {

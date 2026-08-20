@@ -46,10 +46,20 @@ export interface AnalyticsSummary {
 export interface HeatPoint { lat: number; lng: number; weight: number; }
 export interface HeatmapResponse { points: HeatPoint[]; }
 
-// The demo API key is embedded here — this is a hackathon prototype;
-// the check exists to demonstrate the middleware. In production this
-// would be swapped for real auth.
-const API_KEY = "civiclens-demo-key";
+// ---------------------------------------------------------------------------
+// Runtime config
+// ---------------------------------------------------------------------------
+// VITE_API_BASE_URL — absolute origin of the FastAPI backend
+//                    (e.g. "https://civiclens-api.onrender.com").
+//                    Leave empty in local dev — the Vite proxy handles it.
+// VITE_API_KEY      — value to send in the X-API-Key header. Defaults to the
+//                    demo key so the app "just works" in dev.
+// ---------------------------------------------------------------------------
+const API_BASE: string = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
+const API_KEY: string  = import.meta.env.VITE_API_KEY ?? "civiclens-demo-key";
+
+/** Build a full URL for an API path, honoring VITE_API_BASE_URL when set. */
+const url = (path: string) => `${API_BASE}${path}`;
 
 async function json<T>(res: Response): Promise<T> {
   if (!res.ok) {
