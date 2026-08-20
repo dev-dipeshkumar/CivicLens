@@ -43,6 +43,12 @@ civiclens/
     │       ├── api.ts            # typed API client
     │       └── tokens.ts         # design tokens
     └── package.json
+└── training/          # OPTIONAL — fine-tune the streetlight detector
+    ├── fine_tune_streetlight.py  # Roboflow dataset download + YOLOv8 train
+    ├── deploy_weights.py         # upload best.pt back to Roboflow hosted inference
+    ├── requirements.txt
+    ├── .env.example
+    └── README.md                 # 3 paths: Roboflow Train / local / Colab
 ```
 
 ---
@@ -104,6 +110,21 @@ AI_MODE=mock       →                                                          
 The **mock** is deterministic (seeded from the image's SHA-256), so the same
 photo always yields the same result — perfect for a live demo. Every fallback
 is logged with a clear tag (`MOCK / LOCAL / ROBOFLOW`).
+
+### Multi-model Roboflow inference
+
+Public Roboflow Universe models are typically single-class. The backend calls
+several in parallel and keeps the best hit:
+
+```env
+ROBOFLOW_MODELS=pothole:pothole-detection-yolov8/1,garbage:garbage_detection-wvzwv/9,streetlight:civiclens-streetlight/1
+```
+
+- `pothole` and `garbage` — ready-made public models, just set the key.
+- `streetlight` — no strong public model exists, so we ship a **fine-tuning
+  pipeline** in [`training/`](./training/README.md). Fork one of two labeled
+  datasets, run one script (or a Colab cell), get a `slug/version`, paste it
+  into `ROBOFLOW_MODELS`. See `training/README.md` for the 5-minute guide.
 
 ---
 

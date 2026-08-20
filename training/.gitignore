@@ -1,0 +1,8 @@
+# Local training artifacts — never commit these.
+.venv/
+runs/
+dataset/
+*.pt
+!yolov8n.pt.placeholder
+.env
+__pycache__/

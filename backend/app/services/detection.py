@@ -46,10 +46,22 @@ ROBOFLOW_BASE = "https://serverless.roboflow.com"
 CLASS_MAP: dict[str, str] = {
     "pothole": "pothole", "potholes": "pothole", "hole": "pothole",
     "pothole_-_v1_raw": "pothole", "pothole - v1 raw": "pothole",
+
     "garbage": "garbage", "trash": "garbage", "litter": "garbage",
     "waste": "garbage", "plastic": "garbage", "paper": "garbage",
+
+    # Streetlight datasets label things many ways — normalize all to "streetlight".
+    # Working lights are also mapped (the backend still records them; the UI
+    # can filter or the severity engine can down-score if confidence is low).
     "streetlight": "streetlight", "street_light": "streetlight",
     "broken_light": "streetlight", "lamp": "streetlight",
+    "nonworking": "streetlight", "non_working": "streetlight",
+    "not_working": "streetlight", "not-working": "streetlight",
+    "not working": "streetlight",
+    "flicker": "streetlight", "flickering": "streetlight",
+    "working": "streetlight",
+    "damaged_light": "streetlight", "damaged-light": "streetlight",
+
     "road_damage": "road_damage", "crack": "road_damage", "cracks": "road_damage",
 }
 

@@ -1,0 +1,5 @@
+# Training-only dependencies. These are HEAVY (~3 GB, PyTorch + CUDA runtime)
+# so they live in their own requirements file — the backend does NOT need them.
+roboflow==1.1.48
+ultralytics==8.3.29
+python-dotenv==1.0.1
