@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Node
+node_modules/
+dist/
+build/
+.vite/
+
+# Env / secrets
+.env
+*.env.local
+
+# Local DB / uploads (regeneratable via `python -m app.seed`)
+backend/civiclens.db
+backend/uploads/*.jpg
+backend/uploads/*.png
+backend/uploads/*.webp
+!backend/uploads/.gitkeep
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.log
